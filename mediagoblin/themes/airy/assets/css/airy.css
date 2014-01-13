@@ -104,7 +104,16 @@ input, textarea {
   background-image: url("../images/empty_dots.png");
 }
 
+.media_pane {
+  border-bottom: 1px solid #E4E4E4;
+}
+
+.media_sidebar {
+  border-left: 1px solid #E4E4E4;
+}
+
 #exif_content h3 {
   border-bottom: 1px solid #E4E4E4;
 }
+
 

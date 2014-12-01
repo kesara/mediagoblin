@@ -1,0 +1,80 @@
+{#
+# GNU MediaGoblin -- federated, autonomous media hosting
+# Copyright (C) 2011-2014 MediaGoblin contributors.  See AUTHORS.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-#}
+<!doctype html>
+<html
+{% block mediagoblin_html_tag %}
+{% endblock mediagoblin_html_tag %}
+>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>{% block title %}{{ app_config['html_title'] }}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ request.staticdirect('/css/extlib/reset.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ request.staticdirect('/css/extlib/skeleton.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ request.staticdirect('/css/extlib/reset.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ request.staticdirect('/css/base.css') }}"/>
+    <link rel="shortcut icon"
+          href="{{ request.staticdirect('/images/goblin.ico') }}" />
+    <script type="text/javascript"
+            src="{{ request.staticdirect('/js/extlib/jquery.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ request.staticdirect('/js/header_dropdown.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ request.staticdirect('/js/notifications.js') }}"></script>
+    <script>
+      var mark_all_comments_seen_url = "{{ request.urlgen('mediagoblin.notifications.mark_all_comment_notifications_seen') }}"
+    </script>
+
+    {# For clarification, the difference between the extra_head.html template
+     # and the head template hook is that the former should be used by
+     # themes and the latter should be used by plugins.
+     # The reason is that only one thing can override extra_head.html...
+     # but multiple plugins can hook into the template hook.
+     #}
+    {% include "mediagoblin/extra_head.html" %}
+    {% template_hook("head") %}
+
+    {% block mediagoblin_head %}
+    {% endblock mediagoblin_head %}
+  </head>
+  <body id="top">
+    {% include 'mediagoblin/bits/navbar.html' %}
+    {% include 'mediagoblin/bits/body_start.html' %}
+    {% block mediagoblin_body %}
+      <div class="container">
+        {% include 'mediagoblin/bits/above_content.html' %}
+        <div class="mediagoblin_content">
+          {% include "mediagoblin/utils/messages.html" %}
+          {% block mediagoblin_content %}
+          {% endblock mediagoblin_content %}
+          {% if csrf_token is defined %}
+            {% template_hook("persona_form") %}
+          {% endif %}
+        </div>
+      </div>
+        {%- include "mediagoblin/bits/base_footer.html" %}
+    {%- endblock mediagoblin_body %}
+    {% include 'mediagoblin/bits/body_end.html' %}
+    <i id="scrolltop" title="back to top" onclick="scrollToTop(&quot;top&quot;)" class="fa fa-arrow-circle-o-up fa-3x"></i>
+  </body>
+</html>

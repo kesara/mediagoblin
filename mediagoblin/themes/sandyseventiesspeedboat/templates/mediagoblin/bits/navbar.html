@@ -1,0 +1,127 @@
+{#
+# GNU MediaGoblin -- federated, autonomous media hosting
+# Copyright (C) 2011-2014 MediaGoblin contributors.  See AUTHORS.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-#}
+<div class="navbar navbar-top">
+      <div class="container">
+        <a class="brand pull-left"
+             href="{{ request.urlgen('index') }}">
+             <img src="{{ request.staticdirect('/images/logo.png', 'theme') }}"
+                 alt="{% trans %}MediaGoblin logo{% endtrans %}" />
+          </a>
+        <div class="collapse"><span class="six columns alpha omega">&nbsp;</span></div>
+          <div id="navigation" class="pull-right">
+            {%- if request.user %}
+              {% if request.user and 
+                    request.user.has_privilege('active') and 
+                    not request.user.is_banned() %}
+
+                {% set notification_count = get_notification_count(request.user.id) %}
+                {% if notification_count %}
+                  <a href="javascript:;" class="notification-gem" title="Notifications">
+                  <i class="fa fa-warning fa-fw"></i> {{ notification_count }}</a>
+                {% endif %}
+                <a href="javascript:;" class="header_dropdown_down"><i class="fa fa-caret-square-o-down fa-fw fa-dark"></i></a>
+                <a href="javascript:;" class="header_dropdown_up"><i class="fa fa-caret-square-o-up fa-fw"></i></a>
+              {% elif request.user and not request.user.has_privilege('active') %}
+              {# the following link should only appear when verification is needed #}
+                <a href="{{ request.urlgen('mediagoblin.user_pages.user_home',
+                                 user=request.user.username) }}"
+                   class="button_action">
+               {% trans %}Verify your email!{% endtrans %}</a>
+               or <a id="logout" href=
+               {% if persona is not defined %}
+                 "{{ request.urlgen('mediagoblin.auth.logout') }}"
+               {% else %}
+                 "javascript:;"
+               {% endif %}
+               >{% trans %}log out{% endtrans %}</a>
+              {% elif request.user and request.user.is_banned() %}
+                <a id="logout" href=
+               {% if persona is not defined %}
+                 "{{ request.urlgen('mediagoblin.auth.logout') }}"
+               {% else %}
+                 "javascript:;"
+               {% endif %}
+               >{% trans %}log out{% endtrans %}</a>
+              {% endif %}
+            {%- elif auth %}
+            <a href=
+              {% if persona_auth is defined %}
+                "javascript:;" id="persona_login"
+              {% else %}
+                "{{ request.urlgen('mediagoblin.auth.login') }}"
+              {% endif %}
+              >
+                {%- trans %}<i class="fa fa-sign-in fa-dark" alt="Log in" title="Log in"></i>{% endtrans -%}
+              </a>
+            {%- endif %}
+          </div>
+          <div class="clear"></div>
+          {% if request.user and request.user.has_privilege('active') %}
+            <div id="header_dropdown">
+              <p>
+                <span class="dropdown_title">
+                  {% trans user_url=request.urlgen('mediagoblin.user_pages.user_home',
+                                                    user=request.user.username),
+                           user_name=request.user.username -%}
+                    <a href="{{ user_url }}">{{ user_name }}</a>'s account
+                  {%- endtrans %}
+                </span>
+                &middot;
+                <a href="{{ request.urlgen('mediagoblin.edit.account') }}">{%- trans %}Change account settings{% endtrans -%}</a>
+                &middot;
+                <a href="{{ request.urlgen('mediagoblin.user_pages.processing_panel',
+                                             user=request.user.username) }}">
+                  {%- trans %}Media processing panel{% endtrans -%}
+                </a>
+                &middot;
+                {% template_hook("blog_dashboard_home") %}
+                <a id="logout" href=
+                  {% if persona is not defined %}
+                    "{{ request.urlgen('mediagoblin.auth.logout') }}"
+                  {% else %}
+                    "javascript:;"
+                  {% endif %}
+                  >{% trans %}Log out{% endtrans %} <i class="fa fa-sign-out"></i></a>
+              </p>
+              <a class="button_action" href="{{ request.urlgen('mediagoblin.submit.start') }}">
+                <i class="fa fa-picture-o"></i> {% trans %}Add media{% endtrans -%}
+              </a>
+              <a class="button_action" href="{{ request.urlgen('mediagoblin.submit.collection') }}">
+                <i class="fa fa-folder-open"></i> {% trans %}Create new collection{% endtrans -%}
+              </a>
+              {% if request.user.has_privilege('admin') or request.user.has_privilege('moderator') %}
+                <p>
+                  <span class="dropdown_title">Moderation powers:</span>
+                  <a href="{{ request.urlgen('mediagoblin.moderation.media_panel') }}">
+                    {%- trans %}Media processing panel{% endtrans -%}
+                  </a>
+                  &middot;
+                  <a href="{{ request.urlgen('mediagoblin.moderation.users') }}">
+                    {%- trans %}User management panel{% endtrans -%}
+                  </a>
+                  &middot;
+                  <a href="{{ request.urlgen('mediagoblin.moderation.reports') }}">
+                    {%- trans %}Report management panel{% endtrans -%}
+                  </a>
+                </p>
+              {% endif %}
+              {% include 'mediagoblin/fragments/header_notifications.html' %}
+            </div>
+          {% endif %}
+      </div>
+    </div>

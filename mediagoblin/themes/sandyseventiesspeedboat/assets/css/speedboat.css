@@ -596,5 +596,8 @@ table.admin_panel th, table.admin_side_panel th {
   .navigation_button {
     width: 39%;
   }
+  .media_thumbnail.thumb_entry img {
+    margin-left: 2px;
+  }
 }
 /* end browser width stuff */

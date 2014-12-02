@@ -597,7 +597,7 @@ table.admin_panel th, table.admin_side_panel th {
     width: 39%;
   }
   .media_thumbnail.thumb_entry img {
-    margin-left: 2px;
+    max-width:96%;
   }
 }
 /* end browser width stuff */

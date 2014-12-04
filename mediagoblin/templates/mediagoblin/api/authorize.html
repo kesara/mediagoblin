@@ -50,7 +50,7 @@
         {{ csrf_token }}
         {{ authorize_form.oauth_token }}
         {{ authorize_form.oauth_verifier }}
-        <input type="submit" value="{% trans %}Authorize{% endtrans %}">
+        <input class="button_action" type="submit" value="{% trans %}Authorize{% endtrans %}">
     </form>
 </p>
 {% endblock %}

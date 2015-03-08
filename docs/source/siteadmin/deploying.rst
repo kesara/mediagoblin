@@ -125,16 +125,12 @@ The following command (entered as root or with sudo) will create a
 system account with a username of ``mediagoblin``. You may choose a different
 username if you wish.::
 
-   adduser --system mediagoblin
+   useradd --system mediagoblin
 
 No password will be assigned to this account, and you will not be able
-to log in as this user. To switch to this account, enter either::
+to log in as this user. To switch to this account, enter::
 
-  sudo -u mediagoblin /bin/bash  # (if you have sudo permissions)
-
-or::
-
-  su mediagoblin -s /bin/bash  # (if you have to use root permissions)
+  sudo -u mediagoblin /bin/bash
 
 You may get a warning similar to this when entering these commands::
 
@@ -142,11 +138,6 @@ You may get a warning similar to this when entering these commands::
 
 You can disregard this warning. To return to your regular user account after
 using the system account, just enter ``exit``.
-
-.. note::
-
-    Unless otherwise noted, the remainder of this document assumes that all
-    operations are performed using this unpriviledged account.
 
 .. _create-mediagoblin-directory:
 
@@ -167,10 +158,6 @@ to suit your particular requirements::
 
   sudo mkdir -p /srv/mediagoblin.example.org && sudo chown -hR mediagoblin: /srv/mediagoblin.example.org
 
-or (as the root user)::
-
-  mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin: /srv/mediagoblin.example.org
-
 
 Install MediaGoblin and Virtualenv
 ----------------------------------
@@ -184,15 +171,22 @@ Install MediaGoblin and Virtualenv
 
 We will now clone the MediaGoblin source code repository and setup and
 configure the necessary services. Modify these commands to
-suit your own environment. As a reminder, you should enter these
-commands using your unpriviledged system account.
+suit your own environment.
+
+.. note::
+
+    Unless otherwise noted, the remainder of this document assumes that all
+    operations are performed using the unpriviledged *mediagoblin* user
+    account.
 
 Change to the MediaGoblin directory that you just created::
 
     cd /srv/mediagoblin.example.org
 
-Clone the MediaGoblin repository and set up the git submodules::
+Clone the MediaGoblin repository as the *mediagoblin* user, and set up the git
+submodules::
 
+    sudo -u mediagoblin /bin/bash
     git clone git://gitorious.org/mediagoblin/mediagoblin.git -b stable
     cd mediagoblin
     git submodule init && git submodule update

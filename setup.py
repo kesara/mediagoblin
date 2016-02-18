@@ -42,7 +42,6 @@ def get_version():
 
 pyversion_install_requires = []
 if PY2:
-    pyversion_install_requires.append('argparse')  # only for < 2.7
     # newer sqlalchemy-migrate requires pbr which BREAKS EVERYTHING AND IS
     # TERRIBLE AND IS THE END OF ALL THINGS
     # I'd love to remove this restriction.
@@ -142,7 +141,6 @@ try:
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',

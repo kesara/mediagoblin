@@ -65,7 +65,7 @@ MediaGoblin has the following core dependencies:
 - `virtualenv <http://www.virtualenv.org/>`_
 - `nodejs <https://nodejs.org>`_
 
-On a DEB-based system (e.g Debian, gNewSense, Trisquel, *buntu, and
+On a DEB-based system (e.g Debian, gNewSense, Trisquel, \*buntu, and
 derivatives) issue the following command::
 
     sudo apt-get install git-core python python-dev python-lxml \
@@ -247,7 +247,35 @@ Clone the MediaGoblin repository and set up the git submodules::
 
     $ git remote set-url origin git://git.savannah.gnu.org/mediagoblin.git
 
-Set up the hacking environment::
+Before you do anything else, it's recommended to verify the integrity
+of the code you just cloned. You can do this with with, for example::
+
+    $ gpg --recv-keys 510A8628E2A776788F8C709C4BC025925FF8F4D3
+    $ git tag --verify v0.9.0
+
+This will check the signature for MediaGoblin 0.9.0. If you're
+installing a different version, adjust the version number to match.
+
+The correct output for the above command would be::
+
+    object d1ac2d52fd8859c3f32fa38e4836ffe9615e5bba
+    type commit
+    tag v0.9.0
+    tagger Christopher Allan Webber <cwebber@dustycloud.org> 1459279054 -0700
+
+    MediaGoblin v0.9.0: The Three Goblineers!
+    gpg: Signature made Tue 29 Mar 2016 12:17:39 PM PDT
+    gpg:                using RSA key 0x4BC025925FF8F4D3
+    gpg: Good signature from "Christopher Allan Webber <cwebber@dustycloud.org>" [unknown]
+    gpg: WARNING: This key is not certified with a trusted signature!
+    gpg:          There is no indication that the signature belongs to the owner.
+    Primary key fingerprint: 510A 8628 E2A7 7678 8F8C  709C 4BC0 2592 5FF8 F4D3
+
+Note the warning about the key not being trusted. If possible, you
+should verify that the key fingerprint is correct, mark the key as
+trusted in GPG, and rerun `git tag --verify`.
+
+Now you can set up the hacking environment::
 
     $ ./bootstrap.sh && ./configure && make
 
@@ -384,7 +412,7 @@ into a directory that will be included in your ``nginx`` configuration
 (e.g. "``/etc/nginx/sites-enabled`` or ``/etc/nginx/conf.d``) with
 one of the following commands.
 
-On a DEB-based system (e.g Debian, gNewSense, Trisquel, *buntu, and
+On a DEB-based system (e.g Debian, gNewSense, Trisquel, \*buntu, and
 derivatives) issue the following commands::
 
     sudo ln -s /srv/mediagoblin.example.org/nginx.conf /etc/nginx/sites-enabled/

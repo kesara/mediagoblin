@@ -394,7 +394,8 @@ text-align: center;
   margin-right: auto;
 }
 
-.form_box,.form_box_xl > h1 {
+.form_box > h1,.form_box_xl > h1 {
+  /* Fix header overflowing issue. */
   overflow: hidden;
   text-overflow: ellipsis
 }

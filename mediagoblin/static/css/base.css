@@ -394,6 +394,11 @@ text-align: center;
   margin-right: auto;
 }
 
+.form_box > h1 {
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
 .form_box_xl {
   max-width: 460px;
 }
